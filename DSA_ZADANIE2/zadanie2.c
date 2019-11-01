@@ -10,7 +10,7 @@
 #define FALSE 0
 
 
-void CallBVS(double* timeTogether,int num, unsigned long long *BVSSize, char insert)
+void CallBVS(double* timeTogether, int num, unsigned long long *BVSSize, char insert)
 {
 	clock_t start, end;
 
@@ -109,16 +109,75 @@ void BasicTestRB()
 
 	printf("RB Search\n");
 	printf("Time taken: %f seconds\n", timeTogether);
-	printf("Space used: %lld Bytes\n", RBSize);
+	printf("Space used: %lld Bytes\n\n", RBSize);
 
 }
+
+void CallNotMyHT(double* timeTogether, int num, unsigned long long *NotMyHTSize, char insert)
+{
+	clock_t start, end;
+
+	char *tmp = malloc(31);
+	//itoa(num, tmp, 10);
+	sprintf(tmp, "%d", num);
+
+	if (insert)
+	{
+		start = clock();
+		*NotMyHTSize = hashtbl_insert_first(tmp, tmp);
+		end = clock();
+
+	}
+	else
+	{
+		start = clock();
+		if (hashtbl_get(tmp))
+			printf("not found\n");
+		end = clock();
+	}
+	*timeTogether += ((double)(end - start)) / CLOCKS_PER_SEC;
+	free(tmp);
+}
+
+void BasicTestNotMyHT()
+{
+	unsigned long long NotMyHTSize = 0;
+	double timeTogether = 0;
+
+	hashtbl_create(1013);
+
+	//INSERTS
+	for (int i = 1; i <= 30000; i++)
+	{
+		CallNotMyHT(&timeTogether, i, &NotMyHTSize, TRUE);
+	}
+
+	printf("\nNotMyHT Insert\n");
+	printf("Time taken: %f seconds\n", timeTogether);
+	printf("Space used: %lld Bytes\n\n", NotMyHTSize);
+
+	//SEARCH
+	timeTogether = 0;
+	NotMyHTSize = 0;
+
+	for (int i = 1; i <= 30000; i++)
+	{
+		CallNotMyHT(&timeTogether, i, &NotMyHTSize, FALSE);
+	}
+
+	printf("NotMyHT Search\n");
+	printf("Time taken: %f seconds\n", timeTogether);
+	printf("Space used: %lld Bytes\n\n", NotMyHTSize);
+
+}
+
 
 // Funkcia main() by mala obsahovat testovanie
 int main()
 {
 	BasicTestBVS();
 	BasicTestRB();
-
+	BasicTestNotMyHT();
 
 
 	system("pause");

@@ -1,5 +1,6 @@
 // zadanie2.h -- Dominik Mikuška, 21.10.2019 10:55
 
+//BVS Tree
 typedef struct BVSTree
 {
 	int value;
@@ -12,7 +13,8 @@ int InsertBVS(int valueInc);
 void FreeMyBVSTree(BVStree *tree);
 void FreeBVSTree();
 
-//Prebraty kod z https://github.com/sebastiencs/red-black-tree
+//Red Black Tree
+// Prebraty kod z https://github.com/sebastiencs/red-black-tree
 /*
 ** rbtree.h for rbtree in /home/chapuis_s/rendu/rbtree
 **
@@ -46,3 +48,28 @@ int		insert_RB(t_key key, t_value value);
 void		erase_tree_RB(t_rbnode *node);
 void		EraseRBTree();
 // Koniec prebrateho kodu z https://github.com/sebastiencs/red-black-tree
+
+//Foreign hashing
+// Prebraty kod z https://github.com/qzchenwl/hashtable
+typedef size_t HSIZE;
+
+typedef struct hashnode {
+	char *key;
+	void *data;
+	struct hashnode *next;
+} ENTRY;
+
+typedef struct hashtbl {
+	HSIZE size;
+	HSIZE count;
+	ENTRY **nodes;
+	HSIZE(*hashfunc)(const char *);
+} HASHTBL;
+
+void hashtbl_destroy();
+int hashtbl_get(const char *key);
+int hashtbl_insert_first(const char *key, void *data);
+void hashtbl_create(HSIZE size);
+
+
+// Koniec prebrateho kodu z https://github.com/qzchenwl/hashtable
