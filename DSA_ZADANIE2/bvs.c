@@ -8,26 +8,11 @@
 
 // Implementacia nevyvazeneho BVS patri do tohto suboru.
 
-// ...
-extern void bvs()
+static BVStree *mainBVSTree = NULL;
+
+int SearchBVS(int valueInc)
 {
-	printf("BVS BVS\n");
-}
-
-extern int SearchBVS(BVStree *treeInc, int valueInc)
-{
-	/*if (treeInc == NULL)
-		return 1;
-
-	if (treeInc->value == valueInc)
-		return 0;
-
-	if (valueInc <= treeInc->value)
-		return SearchBVS(treeInc->left, valueInc);
-	else
-		return SearchBVS(treeInc->right, valueInc);*/
-
-	BVStree *tmp = treeInc;
+	BVStree *tmp = mainBVSTree;
 
 	while (1)
 	{
@@ -37,19 +22,17 @@ extern int SearchBVS(BVStree *treeInc, int valueInc)
 		if (tmp->value == valueInc)
 			return 0;
 
-		if (valueInc <= treeInc->value)
-			//return SearchBVS(treeInc->left, valueInc);
+		if (valueInc <= tmp->value)
 			tmp = tmp->left;
 		else
-			//return SearchBVS(treeInc->right, valueInc);
 			tmp = tmp->right;
 	}
 	
 }
 
-extern int InsertBVS(BVStree **treeInc, int valueInc)
+int InsertBVS(int valueInc)
 {
-	BVStree **tmp = treeInc;
+	BVStree **tmp = &mainBVSTree;
 
 	while (1)
 	{
@@ -59,7 +42,7 @@ extern int InsertBVS(BVStree **treeInc, int valueInc)
 			(*tmp)->left = NULL;
 			(*tmp)->right = NULL;
 			(*tmp)->value = valueInc;
-			
+
 			return sizeof(BVStree);
 		}
 		else
@@ -77,13 +60,18 @@ extern int InsertBVS(BVStree **treeInc, int valueInc)
 
 }
 
-extern void FreeBVSTree(BVStree *tree)
+void FreeBVSTree()
+{
+	FreeMyBVSTree(mainBVSTree);
+}
+
+void FreeMyBVSTree(BVStree *tree)
 {
 	if (tree == NULL)
 		return;
 	if (tree->left != NULL)
-		FreeBVSTree(tree->left);
+		FreeMyBVSTree(tree->left);
 	if (tree->right != NULL)
-		FreeBVSTree(tree->right);
+		FreeMyBVSTree(tree->right);
 	free(tree);
 }
