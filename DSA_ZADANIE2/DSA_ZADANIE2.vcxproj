@@ -115,6 +115,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bvs.c" />
+    <ClCompile Include="cudzi-hash.c" />
+    <ClCompile Include="cudzi-vyvazeny.c" />
+    <ClCompile Include="moj-hash.c" />
+    <ClCompile Include="moj-vyvazeny.c" />
+    <ClCompile Include="zadanie2.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="zadanie2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
