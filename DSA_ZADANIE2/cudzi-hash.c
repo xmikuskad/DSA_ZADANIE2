@@ -83,8 +83,8 @@ int hashtbl_insert_first(const char *key, void *data)
 int hashtbl_insert(HASHTBL *hashtbl, const char *key, void *data)
 {
 	/* resize table if the threshold is exceeded
- * default threshold is:
- * <table size> * <load factor 0.75> */
+	* default threshold is:
+	* <table size> * <load factor 0.75> */
 	if (hashtbl->count >= hashtbl->size * 0.75) {
 		hashtbl_resize(hashtbl, hashtbl->size * 2 + 1);
 	}
@@ -95,13 +95,13 @@ int hashtbl_insert(HASHTBL *hashtbl, const char *key, void *data)
 	node = hashtbl->nodes[hash];
 
 	/* check if the key is already in the hashtbl */
-	while (node) {
+	/*while (node) {
 		if (!strcmp(node->key, key)) {
 			node->data = data;
 			return 0;
 		}
 		node = node->next;
-	}
+	}*/
 
 	/* create new entry */
 	if (!(node = malloc(sizeof(ENTRY))))

@@ -63,6 +63,7 @@ int InsertBVS(int valueInc)
 void FreeBVSTree()
 {
 	FreeMyBVSTree(mainBVSTree);
+	mainBVSTree = NULL;
 }
 
 void FreeMyBVSTree(BVStree *tree)

@@ -154,6 +154,7 @@ inline t_rbnode		*balance_me_that(t_rbnode *node)
 void EraseRBTree()
 {
 	erase_tree_RB(mainRBTree);
+	mainRBTree = NULL;
 }
 
 void erase_tree_RB(t_rbnode *node)
