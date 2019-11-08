@@ -71,5 +71,18 @@ int hashtbl_get(const char *key);
 int hashtbl_insert_first(const char *key, void *data);
 void hashtbl_create(HSIZE size);
 
-
 // Koniec prebrateho kodu z https://github.com/qzchenwl/hashtable
+
+//AVL Tree
+
+typedef struct AVLTree {
+	int num;
+	short height;
+	struct AVLTree *left;
+	struct AVLTree *right;
+}AVLtree;
+
+int SearchAVL(int numInc);
+int InsertAVL(int num);
+void FreeAVLTree();
+void FreeMyAVLTree(AVLtree *tree);

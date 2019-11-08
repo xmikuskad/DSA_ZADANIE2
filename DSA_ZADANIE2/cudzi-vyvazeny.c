@@ -5,7 +5,29 @@
 #include <string.h>
 #include <stddef.h>	//Vyzaduje prebraty kod
 
-#include "zadanie2.h"
+typedef enum rbcolor
+{
+	BLACK = 0,
+	RED = 1
+}t_rbcolor;
+
+typedef unsigned int t_key;
+typedef unsigned int t_value;
+
+typedef struct s_rbnode
+{
+	t_key			key;
+	t_value		value;
+	t_rbcolor		color;
+	struct s_rbnode	*left;
+	struct s_rbnode	*right;
+
+}t_rbnode;
+
+int		get_key_RB(t_key key);
+int		insert_RB(t_key key, t_value value);
+void		erase_tree_RB(t_rbnode *node);
+void		EraseRBTree();
 
 // Prevzata implementacia ineho vyvazeneho BVS patri do tohto suboru.
 // Dolezite: uvedte zdroj odkial ste to prevzali -- musi existovat v case konzultacii!
@@ -15,10 +37,6 @@
 //LINK: https://github.com/thabongshot/redblack
 //Vyzaduje vela uprav: https://github.com/louiswins/RB-Tree/blob/master/RBtree.c
 //Tiez celkom ez: https://github.com/sebastiencs/red-black-tree/blob/master/rbtree.c
-
-
-
-//AKTUALNY POKUS: https://github.com/sebastiencs/red-black-tree
 
 //CELY TENTO KOD JE PREBRATY Z https://github.com/sebastiencs/red-black-tree !
 
@@ -33,7 +51,7 @@
 */
 
 
-t_rbnode		*mainRBTree = (t_rbnode*)0;
+t_rbnode		*mainRBTree = NULL;
 
 static inline int	is_red(t_rbnode *node)
 {

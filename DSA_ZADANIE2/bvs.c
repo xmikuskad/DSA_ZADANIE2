@@ -4,11 +4,23 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "zadanie2.h"
+typedef struct BVSTree
+{
+	int value;
+	struct BVSTree *left;
+	struct BVSTree *right;
+} BVStree;
+
+int SearchBVS(int valueInc);
+int InsertBVS(int valueInc);
+void FreeMyBVSTree(BVStree *tree);
+void FreeBVSTree();
 
 // Implementacia nevyvazeneho BVS patri do tohto suboru.
 
-static BVStree *mainBVSTree = NULL;
+// ...
+
+BVStree *mainBVSTree = NULL;
 
 int SearchBVS(int valueInc)
 {
@@ -27,7 +39,7 @@ int SearchBVS(int valueInc)
 		else
 			tmp = tmp->right;
 	}
-	
+
 }
 
 int InsertBVS(int valueInc)

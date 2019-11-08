@@ -4,7 +4,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "zadanie2.h"
+typedef size_t HSIZE;
+
+typedef struct hashnode {
+	char *key;
+	void *data;
+	struct hashnode *next;
+} ENTRY;
+
+typedef struct hashtbl {
+	HSIZE size;
+	HSIZE count;
+	ENTRY **nodes;
+	HSIZE(*hashfunc)(const char *);
+} HASHTBL;
+
+void hashtbl_destroy();
+int hashtbl_get(const char *key);
+int hashtbl_insert_first(const char *key, void *data);
+void hashtbl_create(HSIZE size);
+
 
 // Prevzata implementacia ineho hashovania patri do tohto suboru.
 // Dolezite: uvedte zdroj odkial ste to prevzali -- musi existovat v case konzultacii!
@@ -14,9 +33,6 @@
 //VERY EZ: https://github.com/jakogut/tinyht/blob/master/hash_table.c
 //Celkom tazke na pochopenie: https://github.com/emiltayl/hashtable/blob/master/hashtable.c
 //Lahke na pochopenie: https://github.com/qzchenwl/hashtable/blob/master/src/hashtbl.c
-
-
-//POKUS: https://github.com/qzchenwl/hashtable
 
 //CELY TENTO KOD JE PREBRATY Z https://github.com/qzchenwl/hashtable
 HASHTBL *not_my_table;
