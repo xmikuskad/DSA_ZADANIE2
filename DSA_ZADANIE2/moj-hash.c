@@ -30,24 +30,25 @@ int CreateTable(int sizeInc)
 	return sizeof(myHTable);
 }
 
-int HashFunction(int num, long attempt, int size)
+int HashFunction(int num, unsigned long long attempt, int size)
 {
-	return  (long)(num + attempt + (long)pow(attempt,2)) % size;
+	return  (unsigned long long)(num + attempt) % size;
 }
 
 myTable* InsertMyHTFunc(myTable *tmpTable, int number)
 {
-	long attempt = 0;
+	unsigned long long attempt = 0;
 	while (1)
 	{
-
-		if (tmpTable->elements[HashFunction(number, attempt, tmpTable->size)] != 0)
+		int tmpEh = HashFunction(number, attempt, tmpTable->size);
+		if (tmpTable->elements[tmpEh] != 0)
 		{
 			attempt++;
 		}
 		else
 		{
-			tmpTable->elements[HashFunction(number, attempt, tmpTable->size)] = number;
+			int tmpEh = HashFunction(number, attempt, tmpTable->size);
+			tmpTable->elements[tmpEh] = number;
 			tmpTable->usedSize++;
 			break;
 		}

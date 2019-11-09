@@ -761,7 +761,7 @@ void SameTest(int max)
 	double timeTogetherAVL = 0;
 	double timeTogetherMyHT = 0;
 
-	int	*arrayForSearch = malloc(max * sizeof(int));
+	//int	*arrayForSearch = malloc(max * sizeof(int));
 
 	int number = 5;
 
@@ -867,7 +867,8 @@ int main()
 	//SameTest(200);
 
 	//BasicTest(100000);
-	RandomTest(100000);
+	//RandomTest(100000);
+	SameTest(20);
 
 	system("pause");
 	return 0;
