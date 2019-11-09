@@ -419,6 +419,92 @@ void BasicTest(int max, int debugCount)
 		printf("Time taken: %f seconds\n\n", timeElapsed[4 + 5][i] / 3);
 	}
 
+	FILE *file;
+
+	file = fopen("basic.txt", "w+");
+
+	for (int i = 0; i < (max + debugCount - 1) / debugCount; i++)
+	{
+		int position = (i + 1)*debugCount;
+
+		if (position > max)
+			position = max;
+
+		fprintf(file, "%d\n", position);
+
+	}
+
+
+	int j = 0;
+	while (j < 5)
+	{
+		switch (j)
+		{
+		case 0:	fprintf(file, "\nBVS\n");
+			break;
+		case 1:	fprintf(file, "\nRB\n");
+			break;
+		case 2:	fprintf(file, "\nNotMyHT\n");
+			break;
+		case 3:	fprintf(file, "\nAVL\n");
+			break;
+		case 4:	fprintf(file, "\nMyHT\n");
+			break;
+		default:
+			break;
+		}
+
+		for (int i = 0; i < (max + debugCount - 1) / debugCount; i++)
+		{
+			int position = (i + 1)*debugCount;
+
+			if (position > max)
+				position = max;
+
+
+			//fprintf(file, "%d - ", position);
+			fprintf(file, "%f\n", timeElapsed[j][i] / 3);
+		}
+		fprintf(file, "\n-----END OF INSERT-----\n");
+		j++;
+	}
+
+	while (j < 10)
+	{
+
+		switch (j)
+		{
+		case 5:	fprintf(file, "\nBVS\n");
+			break;
+		case 6:	fprintf(file, "\nRB\n");
+			break;
+		case 7:	fprintf(file, "\nNotMyHT\n");
+			break;
+		case 8:	fprintf(file, "\nAVL\n");
+			break;
+		case 9:	fprintf(file, "\nMyHT\n");
+			break;
+		default:
+			break;
+		}
+		for (int i = 0; i < (max + debugCount - 1) / debugCount; i++)
+		{
+			int position = (i + 1)*debugCount;
+
+			if (position > max)
+				position = max;
+
+
+			//fprintf(file, "%d - ", position);
+			fprintf(file, "%f\n", timeElapsed[j][i] / 3);
+		}
+		fprintf(file, "\n-----END OF SEARCH-----\n");
+		j++;
+	}
+
+	fclose(file);
+
+
 	for (int i = 0; i < 10; i++)
 	{
 		free(timeElapsed[i]);
@@ -605,6 +691,91 @@ void RandomTest(int max,int debugCount)
 		printf("Time taken: %f seconds\n\n", timeElapsed[4 + 5][i] / 3);
 	}
 
+	FILE *file;
+
+	file = fopen("random.txt", "w+");
+
+	for (int i = 0; i < (max + debugCount - 1) / debugCount; i++)
+	{
+		int position = (i + 1)*debugCount;
+
+		if (position > max)
+			position = max;
+
+		fprintf(file, "%d\n", position);
+
+	}
+
+
+	int j = 0;
+	while (j < 5)
+	{
+		switch (j)
+		{
+		case 0:	fprintf(file, "\nBVS\n");
+			break;
+		case 1:	fprintf(file, "\nRB\n");
+			break;
+		case 2:	fprintf(file, "\nNotMyHT\n");
+			break;
+		case 3:	fprintf(file, "\nAVL\n");
+			break;
+		case 4:	fprintf(file, "\nMyHT\n");
+			break;
+		default:
+			break;
+		}
+
+		for (int i = 0; i < (max + debugCount - 1) / debugCount; i++)
+		{
+			int position = (i + 1)*debugCount;
+
+			if (position > max)
+				position = max;
+
+
+			//fprintf(file, "%d - ", position);
+			fprintf(file, "%f\n", timeElapsed[j][i] / 3);
+		}
+		fprintf(file, "\n-----END OF INSERT-----\n");
+		j++;
+	}
+
+	while (j < 10)
+	{
+
+		switch (j)
+		{
+		case 5:	fprintf(file, "\nBVS\n");
+			break;
+		case 6:	fprintf(file, "\nRB\n");
+			break;
+		case 7:	fprintf(file, "\nNotMyHT\n");
+			break;
+		case 8:	fprintf(file, "\nAVL\n");
+			break;
+		case 9:	fprintf(file, "\nMyHT\n");
+			break;
+		default:
+			break;
+		}
+		for (int i = 0; i < (max + debugCount - 1) / debugCount; i++)
+		{
+			int position = (i + 1)*debugCount;
+
+			if (position > max)
+				position = max;
+
+
+			//fprintf(file, "%d - ", position);
+			fprintf(file, "%f\n", timeElapsed[j][i] / 3);
+		}
+		fprintf(file, "\n-----END OF SEARCH-----\n");
+		j++;
+	}
+
+	fclose(file);
+
 	for (int i = 0; i < 10; i++)
 	{
 		free(timeElapsed[i]);
@@ -786,6 +957,91 @@ void SameTest(int max, int debugCount)
 		printf("Time taken: %f seconds\n\n", timeElapsed[4 + 5][i] / 3);
 	}
 
+	FILE *file;
+
+	file = fopen("same.txt", "w+");
+
+	for (int i = 0; i < (max + debugCount - 1) / debugCount; i++)
+	{
+		int position = (i + 1)*debugCount;
+
+		if (position > max)
+			position = max;
+
+		fprintf(file, "%d\n", position);
+
+	}
+
+
+	int j = 0;
+	while (j < 5)
+	{
+		switch (j)
+		{
+		case 0:	fprintf(file, "\nBVS\n");
+			break;
+		case 1:	fprintf(file, "\nRB\n");
+			break;
+		case 2:	fprintf(file, "\nNotMyHT\n");
+			break;
+		case 3:	fprintf(file, "\nAVL\n");
+			break;
+		case 4:	fprintf(file, "\nMyHT\n");
+			break;
+		default:
+			break;
+		}
+
+		for (int i = 0; i < (max + debugCount - 1) / debugCount; i++)
+		{
+			int position = (i + 1)*debugCount;
+
+			if (position > max)
+				position = max;
+
+
+			//fprintf(file, "%d - ", position);
+			fprintf(file, "%f\n", timeElapsed[j][i] / 3);
+		}
+		fprintf(file, "\n-----END OF INSERT-----\n");
+		j++;
+	}
+
+	while (j < 10)
+	{
+
+		switch (j)
+		{
+		case 5:	fprintf(file, "\nBVS\n");
+			break;
+		case 6:	fprintf(file, "\nRB\n");
+			break;
+		case 7:	fprintf(file, "\nNotMyHT\n");
+			break;
+		case 8:	fprintf(file, "\nAVL\n");
+			break;
+		case 9:	fprintf(file, "\nMyHT\n");
+			break;
+		default:
+			break;
+		}
+		for (int i = 0; i < (max + debugCount - 1) / debugCount; i++)
+		{
+			int position = (i + 1)*debugCount;
+
+			if (position > max)
+				position = max;
+
+
+			//fprintf(file, "%d - ", position);
+			fprintf(file, "%f\n", timeElapsed[j][i] / 3);
+		}
+		fprintf(file, "\n-----END OF SEARCH-----\n");
+		j++;
+	}
+
+	fclose(file);
+
 	for (int i = 0; i < 10; i++)
 	{
 		free(timeElapsed[i]);
@@ -796,9 +1052,9 @@ void SameTest(int max, int debugCount)
 // Funkcia main() by mala obsahovat testovanie
 int main()
 {
-	SameTest(10000, 5000);
-	RandomTest(10000, 5000);
-	BasicTest(10000, 5000);
+	SameTest(20000, 1000);
+	RandomTest(20000, 1000);
+	BasicTest(20000, 1000);
 
 
 	system("pause");

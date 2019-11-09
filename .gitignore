@@ -259,3 +259,6 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/DSA_ZADANIE2/basic.txt
+/DSA_ZADANIE2/same.txt
+/DSA_ZADANIE2/random.txt
