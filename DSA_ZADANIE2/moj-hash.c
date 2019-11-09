@@ -30,14 +30,14 @@ int CreateTable(int sizeInc)
 	return sizeof(myHTable);
 }
 
-int HashFunction(int num, int attempt, int size)
+int HashFunction(int num, long attempt, int size)
 {
-	return  (num + attempt) % size;
+	return  (long)(num + attempt + (long)pow(attempt,2)) % size;
 }
 
 myTable* InsertMyHTFunc(myTable *tmpTable, int number)
 {
-	int attempt = 0;
+	long attempt = 0;
 	while (1)
 	{
 
@@ -115,7 +115,7 @@ int InsertMyHT(int number)
 	{
 		ResizeTable();
 	}
-	return sizeof(myHTable);
+	return 8+ 8*myHTable->size;
 }
 
 

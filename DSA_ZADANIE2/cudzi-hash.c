@@ -35,7 +35,7 @@ void hashtbl_create(HSIZE size);
 //Lahke na pochopenie: https://github.com/qzchenwl/hashtable/blob/master/src/hashtbl.c
 
 //CELY TENTO KOD JE PREBRATY Z https://github.com/qzchenwl/hashtable
-HASHTBL *not_my_table;
+HASHTBL *not_my_table=NULL;
 
 int hashtbl_resize(HASHTBL *hashtbl, HSIZE size);
 int hashtbl_insert(HASHTBL *hashtbl, const char *key, void *data);
@@ -89,10 +89,16 @@ void hashtbl_destroy()
 	}
 	free(hashtbl->nodes);
 	free(hashtbl);
+
+	not_my_table = NULL;
 }
 
 int hashtbl_insert_first(const char *key, void *data)
 {
+	if (not_my_table == NULL)
+	{
+		hashtbl_create(1013);
+	}
 	return hashtbl_insert(not_my_table, key, data);
 }
 
@@ -131,7 +137,7 @@ int hashtbl_insert(HASHTBL *hashtbl, const char *key, void *data)
 	hashtbl->nodes[hash] = node;
 	hashtbl->count++;
 
-	return hashtbl->size;
+	return 8 + 8*not_my_table->size;
 }
 
 int hashtbl_get(const char *key)
