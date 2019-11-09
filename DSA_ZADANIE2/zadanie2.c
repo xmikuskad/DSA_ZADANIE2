@@ -7,8 +7,8 @@
 
 #include "zadanie2.h"
 
-#define TRUE 1
-#define FALSE 0
+#define INSERT 1
+#define SEARCH 0
 
 //Ak pouzivame windows, tak pouzijeme jeho optimalnejsie funkcie na meranie casu
 #ifdef __linux
@@ -16,6 +16,7 @@
 #else
 #define WINDOWSFLAG 1
 #endif
+//#define WINDOWSFLAG 0
 
 #if WINDOWSFLAG > 0
 #include <windows.h>
@@ -244,387 +245,8 @@ void CallMyHT(double* timeTogether, int num, unsigned long long *MyHTSize, char 
 
 #endif
 
-/*
-void CallBVS(double* timeTogether, int num, unsigned long long *BVSSize, char insert)
-{
-	if (WINDOWSFLAG)
-	{
-		LARGE_INTEGER start, end, tmp;
 
-		if (insert)
-		{
-			QueryPerformanceFrequency(&tmp);
-			QueryPerformanceCounter(&start);
-			*BVSSize += InsertBVS(num);
-			QueryPerformanceCounter(&end);
-
-		}
-		else
-		{
-			QueryPerformanceFrequency(&tmp);
-			QueryPerformanceCounter(&start);
-			if (SearchBVS(num)) printf("not found BVS\n");
-			QueryPerformanceCounter(&end);
-		}
-
-		*timeTogether += (double)(end.QuadPart - start.QuadPart) / tmp.QuadPart;
-	}
-	else
-	{
-		clock_t start, end;
-
-		if (insert)
-		{
-			start = clock();
-			*BVSSize += InsertBVS(num);
-			end = clock();
-
-		}
-		else
-		{
-			start = clock();
-			if (SearchBVS(num)) printf("not found BVS\n");
-			end = clock();
-		}
-		*timeTogether += ((double)(end - start)) / CLOCKS_PER_SEC;
-	}
-
-}
-
-void CallRB(double* timeTogether, int num, unsigned long long *RBSize, char insert)
-{
-	if (WINDOWSFLAG)
-	{
-		LARGE_INTEGER start, end, tmp;
-
-		if (insert)
-		{
-			QueryPerformanceFrequency(&tmp);
-			QueryPerformanceCounter(&start);
-			*RBSize += insert_RB(num, num);
-			QueryPerformanceCounter(&end);
-		}
-		else
-		{
-			QueryPerformanceFrequency(&tmp);
-			QueryPerformanceCounter(&start);
-			if (get_key_RB(num)) printf("not found RB\n");
-			QueryPerformanceCounter(&end);
-		}
-
-		*timeTogether += (double)(end.QuadPart - start.QuadPart) / tmp.QuadPart;
-	}
-	else
-	{
-		clock_t start, end;
-
-		if (insert)
-		{
-			start = clock();
-			*RBSize += insert_RB(num, num);
-			end = clock();
-
-		}
-		else
-		{
-			start = clock();
-			if (get_key_RB(num)) printf("not found RB\n");
-			//get_key_RB(num);
-			end = clock();
-		}
-		*timeTogether += ((double)(end - start)) / CLOCKS_PER_SEC;
-	}
-}
-
-void CallNotMyHT(double* timeTogether, int num, unsigned long long *NotMyHTSize, char insert)
-{
-	if (WINDOWSFLAG)
-	{
-		LARGE_INTEGER start, end, tmp;
-		char *tmp2 = malloc(31);
-		sprintf(tmp2, "%d", num);
-		if (insert)
-		{
-			QueryPerformanceFrequency(&tmp);
-			QueryPerformanceCounter(&start);
-			*NotMyHTSize = hashtbl_insert_first(tmp2, tmp2);
-			QueryPerformanceCounter(&end);
-		}
-		else
-		{
-			QueryPerformanceFrequency(&tmp);
-			QueryPerformanceCounter(&start);
-			if (hashtbl_get(tmp2)) printf("not found NMHT\n");
-			QueryPerformanceCounter(&end);
-		}
-
-		*timeTogether += (double)(end.QuadPart - start.QuadPart) / tmp.QuadPart;
-		free(tmp2);
-	}
-	else
-	{
-		clock_t start, end;
-
-		char *tmp = malloc(31);
-		sprintf(tmp, "%d", num);
-
-		if (insert)
-		{
-			start = clock();
-			*NotMyHTSize = hashtbl_insert_first(tmp, tmp);
-			end = clock();
-
-		}
-		else
-		{
-			start = clock();
-			if (hashtbl_get(tmp))	printf("not found NMHT\n");
-			end = clock();
-		}
-		*timeTogether += ((double)(end - start)) / CLOCKS_PER_SEC;
-		free(tmp);
-	}
-}
-
-void CallAVL(double* timeTogether, int num, unsigned long long *AVLSize, char insert)
-{
-	if (WINDOWSFLAG)
-	{
-		LARGE_INTEGER start, end, tmp;
-
-		if (insert)
-		{
-			QueryPerformanceFrequency(&tmp);
-			QueryPerformanceCounter(&start);
-			*AVLSize += InsertAVL(num);
-			QueryPerformanceCounter(&end);
-
-		}
-		else
-		{
-			QueryPerformanceFrequency(&tmp);
-			QueryPerformanceCounter(&start);
-			if (SearchAVL(num)) printf("not found AVL\n");
-			QueryPerformanceCounter(&end);
-		}
-
-		*timeTogether += (double)(end.QuadPart - start.QuadPart) / tmp.QuadPart;
-	}
-	else
-	{
-		clock_t start, end;
-
-		if (insert)
-		{
-			start = clock();
-			*AVLSize += InsertAVL(num);
-			end = clock();
-
-		}
-		else
-		{
-			start = clock();
-			if (SearchAVL(num)) printf("not found AVL\n");
-			end = clock();
-		}
-		*timeTogether += ((double)(end - start)) / CLOCKS_PER_SEC;
-	}
-}
-
-void CallMyHT(double* timeTogether, int num, unsigned long long *MyHTSize, char insert)
-{
-	if (WINDOWSFLAG)
-	{
-		LARGE_INTEGER start, end, tmp;
-
-		if (insert)
-		{
-			QueryPerformanceFrequency(&tmp);
-			QueryPerformanceCounter(&start);
-			*MyHTSize += InsertMyHT(num);
-			QueryPerformanceCounter(&end);
-
-		}
-		else
-		{
-			QueryPerformanceFrequency(&tmp);
-			QueryPerformanceCounter(&start);
-			if (SearchMyHT(num)) printf("not found MyHT\n");
-			QueryPerformanceCounter(&end);
-		}
-
-		*timeTogether += (double)(end.QuadPart - start.QuadPart) / tmp.QuadPart;
-	}
-	else
-	{
-		clock_t start, end;
-
-		if (insert)
-		{
-			start = clock();
-			*MyHTSize += InsertMyHT(num);
-			end = clock();
-
-		}
-		else
-		{
-			start = clock();
-			if (SearchMyHT(num)) printf("not found MyHT\n");
-			end = clock();
-		}
-		*timeTogether += ((double)(end - start)) / CLOCKS_PER_SEC;
-	}
-}
-*/
-void BasicTest(int max)
-{
-	unsigned long long NotMyHTSize = 0;
-	unsigned long long RBSize = 0;
-	unsigned long long BVSSize = 0;
-	unsigned long long AVLSize = 0;
-	unsigned long long MyHTSize = 0;
-	double timeTogether = 0;
-
-	//My BVS Tree
-	timeTogether = 0;
-	//INSERTS
-	for (int i = 1; i <= max; i++)
-	{
-		CallBVS(&timeTogether, i, &BVSSize, TRUE);
-	}
-
-	printf("[BASIC] BVS Insert\n");
-	printf("Time taken: %f seconds\n", timeTogether);
-	printf("Space used: %lld Bytes\n\n", BVSSize);
-
-	//SEARCH
-	timeTogether = 0;
-	BVSSize = 0;
-
-	for (int i = 1; i <= max; i++)
-	{
-		CallBVS(&timeTogether, i, &BVSSize, FALSE);
-	}
-
-	printf("[BASIC] BVS Search\n");
-	printf("Time taken: %f seconds\n", timeTogether);
-	printf("Space used: %lld Bytes\n\n", BVSSize);
-
-	FreeBVSTree();
-
-
-	//Red Black Tree
-	timeTogether = 0;
-	//INSERTS
-	for (int i = 1; i <= max; i++)
-	{
-		CallRB(&timeTogether, i, &RBSize, TRUE);
-	}
-
-	printf("[BASIC] RB Insert\n");
-	printf("Time taken: %f seconds\n", timeTogether);
-	printf("Space used: %lld Bytes\n\n", RBSize);
-
-	//SEARCH
-	timeTogether = 0;
-	RBSize = 0;
-
-	for (int i = 1; i <= max; i++)
-	{
-		CallRB(&timeTogether, i, &RBSize, FALSE);
-	}
-
-	printf("[BASIC] RB Search\n");
-	printf("Time taken: %f seconds\n", timeTogether);
-	printf("Space used: %lld Bytes\n\n", RBSize);
-
-	EraseRBTree();
-
-	//Not My Hashtable
-	timeTogether = 0;
-	//hashtbl_create(1013);
-
-	//INSERTS
-	for (int i = 1; i <= max; i++)
-	{
-		CallNotMyHT(&timeTogether, i, &NotMyHTSize, TRUE);
-	}
-
-	printf("[BASIC] NotMyHT Insert\n");
-	printf("Time taken: %f seconds\n", timeTogether);
-	printf("Space used: %lld Bytes\n\n", NotMyHTSize);
-
-	//SEARCH
-	timeTogether = 0;
-	NotMyHTSize = 0;
-
-	for (int i = 1; i <= max; i++)
-	{
-		CallNotMyHT(&timeTogether, i, &NotMyHTSize, FALSE);
-	}
-
-	printf("[BASIC] NotMyHT Search\n");
-	printf("Time taken: %f seconds\n", timeTogether);
-	printf("Space used: %lld Bytes\n\n", NotMyHTSize);
-
-	hashtbl_destroy();
-
-	//My AVL Tree
-	timeTogether = 0;
-	//INSERTS
-	for (int i = 1; i <= max; i++)
-	{
-		CallAVL(&timeTogether, i, &AVLSize, TRUE);
-	}
-
-	printf("[BASIC] AVL Insert\n");
-	printf("Time taken: %f seconds\n", timeTogether);
-	printf("Space used: %lld Bytes\n\n", AVLSize);
-
-	//SEARCH
-	timeTogether = 0;
-	AVLSize = 0;
-
-	for (int i = 1; i <= max; i++)
-	{
-		CallAVL(&timeTogether, i, &AVLSize, FALSE);
-	}
-
-	printf("[BASIC] AVL Search\n");
-	printf("Time taken: %f seconds\n", timeTogether);
-	printf("Space used: %lld Bytes\n\n", AVLSize);
-
-	FreeAVLTree();
-
-	//My HT
-	timeTogether = 0;
-	//INSERTS
-	for (int i = 1; i <= max; i++)
-	{
-		CallMyHT(&timeTogether, i, &MyHTSize, TRUE);
-	}
-
-	printf("[BASIC] MyHT Insert\n");
-	printf("Time taken: %f seconds\n", timeTogether);
-	printf("Space used: %lld Bytes\n\n", MyHTSize);
-
-	//SEARCH
-	timeTogether = 0;
-	MyHTSize = 0;
-
-	for (int i = 1; i <= max; i++)
-	{
-		CallMyHT(&timeTogether, i, &MyHTSize, FALSE);
-	}
-
-	printf("[BASIC] MyHT Search\n");
-	printf("Time taken: %f seconds\n", timeTogether);
-	printf("Space used: %lld Bytes\n\n", MyHTSize);
-
-	FreeMyHT();
-}
-
-void RandomTest(int max)
+void BasicTest(int max, int debugCount)
 {
 	unsigned long long NotMyHTSize = 0;
 	unsigned long long RBSize = 0;
@@ -637,118 +259,360 @@ void RandomTest(int max)
 	double timeTogetherAVL = 0;
 	double timeTogetherMyHT = 0;
 
-	int	*arrayForSearch = malloc(max * sizeof(int));
+
+	double **timeElapsed = malloc(10 * sizeof(double*));
+
+	//Prvych 5 je rychlost insertu a druhych 5 je rychlost searchu
+	for (int i = 0; i < 10; i++)
+	{
+		timeElapsed[i] = calloc((max + debugCount - 1) / debugCount, sizeof(double));
+	}
+
+	int averageCount = 0;
+
+	while (averageCount < 3)
+	{
+		timeTogetherBVS = 0;
+		timeTogetherRB = 0;
+		timeTogetherNMHT = 0;
+		timeTogetherAVL = 0;
+		timeTogetherMyHT = 0;
+		NotMyHTSize = 0;
+		RBSize = 0;
+		BVSSize = 0;
+		AVLSize = 0;
+		MyHTSize = 0;
+
+
+		long long arrayCounter = 0;
+		for (int i = 0; i < max; i++)
+		{
+			CallBVS(&timeTogetherBVS, i+1, &BVSSize, INSERT);
+			CallRB(&timeTogetherRB, i+1, &RBSize, INSERT);
+			CallNotMyHT(&timeTogetherNMHT, i+1, &NotMyHTSize, INSERT);
+			CallAVL(&timeTogetherAVL, i+1, &AVLSize, INSERT);
+			CallMyHT(&timeTogetherMyHT, i+1, &MyHTSize, INSERT);
+
+			if (i != 0 && i%debugCount == 0)
+			{
+				timeElapsed[0][arrayCounter] += timeTogetherBVS;
+				timeElapsed[1][arrayCounter] += timeTogetherRB;
+				timeElapsed[2][arrayCounter] += timeTogetherNMHT;
+				timeElapsed[3][arrayCounter] += timeTogetherAVL;
+				timeElapsed[4][arrayCounter] += timeTogetherMyHT;
+
+				arrayCounter++;
+			}
+
+
+		}
+
+		timeElapsed[0][arrayCounter] += timeTogetherBVS;
+		timeElapsed[1][arrayCounter] += timeTogetherRB;
+		timeElapsed[2][arrayCounter] += timeTogetherNMHT;
+		timeElapsed[3][arrayCounter] += timeTogetherAVL;
+		timeElapsed[4][arrayCounter] += timeTogetherMyHT;
+
+		timeTogetherBVS = 0;
+		timeTogetherRB = 0;
+		timeTogetherNMHT = 0;
+		timeTogetherAVL = 0;
+		timeTogetherMyHT = 0;
+
+
+		arrayCounter = 0;
+		for (int i = 0; i < max; i++)
+		{
+			CallBVS(&timeTogetherBVS, i+1, &BVSSize, SEARCH);
+			CallRB(&timeTogetherRB, i+1, &RBSize, SEARCH);
+			CallNotMyHT(&timeTogetherNMHT, i+1, &NotMyHTSize, SEARCH);
+			CallAVL(&timeTogetherAVL, i+1, &AVLSize, SEARCH);
+			CallMyHT(&timeTogetherMyHT, i+1, &MyHTSize, SEARCH);
+
+			if (i != 0 && i%debugCount == 0)
+			{
+				timeElapsed[0 + 5][arrayCounter] += timeTogetherBVS;
+				timeElapsed[1 + 5][arrayCounter] += timeTogetherRB;
+				timeElapsed[2 + 5][arrayCounter] += timeTogetherNMHT;
+				timeElapsed[3 + 5][arrayCounter] += timeTogetherAVL;
+				timeElapsed[4 + 5][arrayCounter] += timeTogetherMyHT;
+
+				arrayCounter++;
+			}
+		}
+
+		timeElapsed[0 + 5][arrayCounter] += timeTogetherBVS;
+		timeElapsed[1 + 5][arrayCounter] += timeTogetherRB;
+		timeElapsed[2 + 5][arrayCounter] += timeTogetherNMHT;
+		timeElapsed[3 + 5][arrayCounter] += timeTogetherAVL;
+		timeElapsed[4 + 5][arrayCounter] += timeTogetherMyHT;
+
+
+		FreeBVSTree();
+		EraseRBTree();
+		hashtbl_destroy();
+		FreeAVLTree();
+		FreeMyHT();
+
+		averageCount++;
+	}
+
+	//Vypis priemeru
+	for (int i = 0; i < (max + debugCount - 1) / debugCount; i++)
+	{
+		int position = (i + 1)*debugCount;
+
+		if (position > max)
+			position = max;
+
+		//My BVS Tree
+		printf("[BASIC %d] BVS Insert\n", position);
+		printf("Time taken: %f seconds\n", timeElapsed[0][i] / 3);
+		printf("Space used: %lld Bytes\n\n", BVSSize);
+
+		//Red Black Tree
+		printf("[BASIC %d] RB Insert\n", position);
+		printf("Time taken: %f seconds\n", timeElapsed[1][i] / 3);
+		printf("Space used: %lld Bytes\n\n", RBSize);
+
+		//Not My Hashtable
+		printf("[BASIC %d] NotMyHT Insert\n", position);
+		printf("Time taken: %f seconds\n", timeElapsed[2][i] / 3);
+		printf("Space used: %lld Bytes\n\n", NotMyHTSize);
+
+		//My AVL Tree
+		printf("[BASIC %d] AVL Insert\n", position);
+		printf("Time taken: %f seconds\n", timeElapsed[3][i] / 3);
+		printf("Space used: %lld Bytes\n\n", AVLSize);
+
+		//My HT
+		printf("[BASIC %d] MyHT Insert\n", position);
+		printf("Time taken: %f seconds\n", timeElapsed[4][i] / 3);
+		printf("Space used: %lld Bytes\n\n", MyHTSize);
+	}
+
+	for (int i = 0; i < (max + debugCount - 1) / debugCount; i++)
+	{
+		int position = (i + 1)*debugCount;
+
+		if (position > max)
+			position = max;
+
+		//My BVS Tree
+		printf("[BASIC %d] BVS Search\n", position);
+		printf("Time taken: %f seconds\n\n", timeElapsed[0 + 5][i] / 3);
+
+		//Red Black Tree
+		printf("[BASIC %d] RB Search\n", position);
+		printf("Time taken: %f seconds\n\n", timeElapsed[1 + 5][i] / 3);
+
+		//Not My Hashtable
+		printf("[BASIC %d] NotMyHT Search\n", position);
+		printf("Time taken: %f seconds\n\n", timeElapsed[2 + 5][i] / 3);
+
+		//My AVL Tree
+		printf("[BASIC %d] AVL Search\n", position);
+		printf("Time taken: %f seconds\n\n", timeElapsed[3 + 5][i] / 3);
+
+		//My HT
+		printf("[BASIC %d] MyHT Search\n", position);
+		printf("Time taken: %f seconds\n\n", timeElapsed[4 + 5][i] / 3);
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		free(timeElapsed[i]);
+	}
+	free(timeElapsed);
+}
+
+void RandomTest(int max,int debugCount)
+{
+	unsigned long long NotMyHTSize = 0;
+	unsigned long long RBSize = 0;
+	unsigned long long BVSSize = 0;
+	unsigned long long AVLSize = 0;
+	unsigned long long MyHTSize = 0;
+	double timeTogetherBVS = 0;
+	double timeTogetherRB = 0;
+	double timeTogetherNMHT = 0;
+	double timeTogetherAVL = 0;
+	double timeTogetherMyHT = 0;
 
 	srand(time(0));	//Different results everytime
 
-	for (int i = 0; i < max; i++)
+	double **timeElapsed = malloc(10 * sizeof(double*));
+
+	//Prvych 5 je rychlost insertu a druhych 5 je rychlost searchu
+	for (int i = 0; i < 10; i++)
 	{
-		int randomNum = rand() % 1000000;
-		arrayForSearch[i] = randomNum;
-		CallBVS(&timeTogetherBVS, randomNum, &BVSSize, TRUE);
-		CallRB(&timeTogetherRB, randomNum, &RBSize, TRUE);
-		CallNotMyHT(&timeTogetherNMHT, randomNum, &NotMyHTSize, TRUE);
-		CallAVL(&timeTogetherAVL, randomNum, &AVLSize, TRUE);
-		CallMyHT(&timeTogetherMyHT, randomNum, &MyHTSize, TRUE);
+		timeElapsed[i] = calloc((max + debugCount - 1) / debugCount, sizeof(double));
 	}
 
-	//My BVS Tree
-	printf("[RANDOM] BVS Insert\n");
-	printf("Time taken: %f seconds\n", timeTogetherBVS);
-	printf("Space used: %lld Bytes\n\n", BVSSize);
+	int averageCount = 0;
 
-	//Red Black Tree
-	printf("[RANDOM] RB Insert\n");
-	printf("Time taken: %f seconds\n", timeTogetherRB);
-	printf("Space used: %lld Bytes\n\n", RBSize);
-
-	//Not My Hashtable
-	printf("[RANDOM] NotMyHT Insert\n");
-	printf("Time taken: %f seconds\n", timeTogetherNMHT);
-	printf("Space used: %lld Bytes\n\n", NotMyHTSize);
-
-	//My AVL Tree
-	printf("[RANDOM] AVL Insert\n");
-	printf("Time taken: %f seconds\n", timeTogetherAVL);
-	printf("Space used: %lld Bytes\n\n", AVLSize);
-
-	//My HT
-	printf("[RANDOM] MyHT Insert\n");
-	printf("Time taken: %f seconds\n", timeTogetherMyHT);
-	printf("Space used: %lld Bytes\n\n", MyHTSize);
-
-	timeTogetherBVS = 0;
-	timeTogetherRB = 0;
-	timeTogetherNMHT = 0;
-	timeTogetherAVL = 0;
-	timeTogetherMyHT = 0;
-	NotMyHTSize = 0;
-	RBSize = 0;
-	BVSSize = 0;
-	AVLSize = 0;
-	MyHTSize = 0;
-
-	for (int i = max - 1; i >= 0; i--)
+	while (averageCount < 3)
 	{
-		CallBVS(&timeTogetherBVS, arrayForSearch[i], &BVSSize, FALSE);
-		CallRB(&timeTogetherRB, arrayForSearch[i], &RBSize, FALSE);
-		CallNotMyHT(&timeTogetherNMHT, arrayForSearch[i], &NotMyHTSize, FALSE);
-		CallAVL(&timeTogetherAVL, arrayForSearch[i], &AVLSize, FALSE);
-		CallMyHT(&timeTogetherMyHT, arrayForSearch[i], &MyHTSize, FALSE);
+		timeTogetherBVS = 0;
+		timeTogetherRB = 0;
+		timeTogetherNMHT = 0;
+		timeTogetherAVL = 0;
+		timeTogetherMyHT = 0;
+		NotMyHTSize = 0;
+		RBSize = 0;
+		BVSSize = 0;
+		AVLSize = 0;
+		MyHTSize = 0;
+
+		int	*arrayForSearch = malloc(max * sizeof(int));
+
+		long long arrayCounter = 0;
+		for (int i = 0; i < max; i++)
+		{
+			int randomNum = rand() % 1000000;
+			arrayForSearch[i] = randomNum;
+			CallBVS(&timeTogetherBVS, randomNum, &BVSSize, INSERT);
+			CallRB(&timeTogetherRB, randomNum, &RBSize, INSERT);
+			CallNotMyHT(&timeTogetherNMHT, randomNum, &NotMyHTSize, INSERT);
+			CallAVL(&timeTogetherAVL, randomNum, &AVLSize, INSERT);
+			CallMyHT(&timeTogetherMyHT, randomNum, &MyHTSize, INSERT);
+
+			if (i != 0 && i%debugCount == 0)
+			{
+				timeElapsed[0][arrayCounter] += timeTogetherBVS;
+				timeElapsed[1][arrayCounter] += timeTogetherRB;
+				timeElapsed[2][arrayCounter] += timeTogetherNMHT;
+				timeElapsed[3][arrayCounter] += timeTogetherAVL;
+				timeElapsed[4][arrayCounter] += timeTogetherMyHT;
+
+				arrayCounter++;
+			}
+		}
+
+		timeElapsed[0][arrayCounter] += timeTogetherBVS;
+		timeElapsed[1][arrayCounter] += timeTogetherRB;
+		timeElapsed[2][arrayCounter] += timeTogetherNMHT;
+		timeElapsed[3][arrayCounter] += timeTogetherAVL;
+		timeElapsed[4][arrayCounter] += timeTogetherMyHT;
+
+		timeTogetherBVS = 0;
+		timeTogetherRB = 0;
+		timeTogetherNMHT = 0;
+		timeTogetherAVL = 0;
+		timeTogetherMyHT = 0;
+
+		arrayCounter = 0;
+		int j = 0;
+		for (int i = max - 1; i >= 0; i--, j++)
+		{
+			CallBVS(&timeTogetherBVS, arrayForSearch[i], &BVSSize, SEARCH);
+			CallRB(&timeTogetherRB, arrayForSearch[i], &RBSize, SEARCH);
+			CallNotMyHT(&timeTogetherNMHT, arrayForSearch[i], &NotMyHTSize, SEARCH);
+			CallAVL(&timeTogetherAVL, arrayForSearch[i], &AVLSize, SEARCH);
+			CallMyHT(&timeTogetherMyHT, arrayForSearch[i], &MyHTSize, SEARCH);
+
+			if (j != 0 && j%debugCount == 0)
+			{
+				timeElapsed[0 + 5][arrayCounter] += timeTogetherBVS;
+				timeElapsed[1 + 5][arrayCounter] += timeTogetherRB;
+				timeElapsed[2 + 5][arrayCounter] += timeTogetherNMHT;
+				timeElapsed[3 + 5][arrayCounter] += timeTogetherAVL;
+				timeElapsed[4 + 5][arrayCounter] += timeTogetherMyHT;
+
+				arrayCounter++;
+			}
+
+
+		}
+
+		timeElapsed[0 + 5][arrayCounter] += timeTogetherBVS;
+		timeElapsed[1 + 5][arrayCounter] += timeTogetherRB;
+		timeElapsed[2 + 5][arrayCounter] += timeTogetherNMHT;
+		timeElapsed[3 + 5][arrayCounter] += timeTogetherAVL;
+		timeElapsed[4 + 5][arrayCounter] += timeTogetherMyHT;
+
+	
+		FreeBVSTree();
+		EraseRBTree();
+		hashtbl_destroy();
+		FreeAVLTree();
+		FreeMyHT();
+
+		free(arrayForSearch);
+
+		averageCount++;
 	}
 
+	//Vypis priemeru
+	for (int i = 0; i < (max + debugCount - 1) / debugCount; i++)
+	{
+		int position = (i + 1)*debugCount;
 
-	//My BVS Tree
-	printf("[RANDOM] BVS Search\n");
-	printf("Time taken: %f seconds\n", timeTogetherBVS);
-	printf("Space used: %lld Bytes\n\n", BVSSize);
+		if (position > max)
+			position = max;
 
-	FreeBVSTree();
+		//My BVS Tree
+		printf("[RANDOM %d] BVS Insert\n", position);
+		printf("Time taken: %f seconds\n", timeElapsed[0][i] / 3);
+		printf("Space used: %lld Bytes\n\n", BVSSize);
 
+		//Red Black Tree
+		printf("[RANDOM %d] RB Insert\n", position);
+		printf("Time taken: %f seconds\n", timeElapsed[1][i] / 3);
+		printf("Space used: %lld Bytes\n\n", RBSize);
 
-	//Red Black Tree
-	printf("[RANDOM] RB Search\n");
-	printf("Time taken: %f seconds\n", timeTogetherRB);
-	printf("Space used: %lld Bytes\n\n", RBSize);
+		//Not My Hashtable
+		printf("[RANDOM %d] NotMyHT Insert\n", position);
+		printf("Time taken: %f seconds\n", timeElapsed[2][i] / 3);
+		printf("Space used: %lld Bytes\n\n", NotMyHTSize);
 
-	EraseRBTree();
+		//My AVL Tree
+		printf("[RANDOM %d] AVL Insert\n", position);
+		printf("Time taken: %f seconds\n", timeElapsed[3][i] / 3);
+		printf("Space used: %lld Bytes\n\n", AVLSize);
 
-	//Not My Hashtable
-	printf("[RANDOM] NotMyHT Search\n");
-	printf("Time taken: %f seconds\n", timeTogetherNMHT);
-	printf("Space used: %lld Bytes\n\n", NotMyHTSize);
+		//My HT
+		printf("[RANDOM %d] MyHT Insert\n", position);
+		printf("Time taken: %f seconds\n", timeElapsed[4][i] / 3);
+		printf("Space used: %lld Bytes\n\n", MyHTSize);
+	}
 
-	hashtbl_destroy();
+	for (int i = 0; i < (max + debugCount - 1) / debugCount; i++)
+	{
+		int position = (i + 1)*debugCount;
 
-	//My AVL Tree
-	printf("[RANDOM] AVL Search\n");
-	printf("Time taken: %f seconds\n", timeTogetherAVL);
-	printf("Space used: %lld Bytes\n\n", AVLSize);
+		if (position > max)
+			position = max;
 
-	FreeAVLTree();
+		//My BVS Tree
+		printf("[RANDOM %d] BVS Search\n", position);
+		printf("Time taken: %f seconds\n\n", timeElapsed[0 + 5][i] / 3);
 
-	//My HT
-	printf("[RANDOM] MyHT Search\n");
-	printf("Time taken: %f seconds\n", timeTogetherMyHT);
-	printf("Space used: %lld Bytes\n\n", MyHTSize);
+		//Red Black Tree
+		printf("[RANDOM %d] RB Search\n", position);
+		printf("Time taken: %f seconds\n\n", timeElapsed[1 + 5][i] / 3);
 
-	FreeMyHT();
+		//Not My Hashtable
+		printf("[RANDOM %d] NotMyHT Search\n", position);
+		printf("Time taken: %f seconds\n\n", timeElapsed[2 + 5][i] / 3);
 
-	free(arrayForSearch);
+		//My AVL Tree
+		printf("[RANDOM %d] AVL Search\n", position);
+		printf("Time taken: %f seconds\n\n", timeElapsed[3 + 5][i] / 3);
 
-	timeTogetherBVS = 0;
-	timeTogetherRB = 0;
-	timeTogetherNMHT = 0;
-	timeTogetherAVL = 0;
-	timeTogetherMyHT = 0;
-	NotMyHTSize = 0;
-	RBSize = 0;
-	BVSSize = 0;
-	AVLSize = 0;
-	MyHTSize = 0;
+		//My HT
+		printf("[RANDOM %d] MyHT Search\n", position);
+		printf("Time taken: %f seconds\n\n", timeElapsed[4 + 5][i] / 3);
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		free(timeElapsed[i]);
+	}
+	free(timeElapsed);
 }
 
-void SameTest(int max)
+void SameTest(int max, int debugCount)
 {
 	unsigned long long NotMyHTSize = 0;
 	unsigned long long RBSize = 0;
@@ -761,114 +625,181 @@ void SameTest(int max)
 	double timeTogetherAVL = 0;
 	double timeTogetherMyHT = 0;
 
-	//int	*arrayForSearch = malloc(max * sizeof(int));
 
-	int number = 5;
+	double **timeElapsed = malloc(10 * sizeof(double*));
 
-	for (int i = 0; i < max; i++)
+	//Prvych 5 je rychlost insertu a druhych 5 je rychlost searchu
+	for (int i = 0; i < 10; i++)
 	{
-		CallBVS(&timeTogetherBVS, number, &BVSSize, TRUE);
-		CallRB(&timeTogetherRB, number, &RBSize, TRUE);
-		CallNotMyHT(&timeTogetherNMHT, number, &NotMyHTSize, TRUE);
-		CallAVL(&timeTogetherAVL, number, &AVLSize, TRUE);
-		CallMyHT(&timeTogetherMyHT, number, &MyHTSize, TRUE);
+		timeElapsed[i] = calloc((max + debugCount - 1) / debugCount, sizeof(double));
 	}
 
-	//My BVS Tree
-	printf("[SAME] BVS Insert\n");
-	printf("Time taken: %f seconds\n", timeTogetherBVS);
-	printf("Space used: %lld Bytes\n\n", BVSSize);
+	int averageCount = 0;
 
-	//Red Black Tree
-	printf("[SAME] RB Insert\n");
-	printf("Time taken: %f seconds\n", timeTogetherRB);
-	printf("Space used: %lld Bytes\n\n", RBSize);
-
-	//Not My Hashtable
-	printf("[SAME] NotMyHT Insert\n");
-	printf("Time taken: %f seconds\n", timeTogetherNMHT);
-	printf("Space used: %lld Bytes\n\n", NotMyHTSize);
-
-	//My AVL Tree
-	printf("[SAME] AVL Insert\n");
-	printf("Time taken: %f seconds\n", timeTogetherAVL);
-	printf("Space used: %lld Bytes\n\n", AVLSize);
-
-	//My HT
-	printf("[SAME] MyHT Insert\n");
-	printf("Time taken: %f seconds\n", timeTogetherMyHT);
-	printf("Space used: %lld Bytes\n\n", MyHTSize);
-
-	timeTogetherBVS = 0;
-	timeTogetherRB = 0;
-	timeTogetherNMHT = 0;
-	timeTogetherAVL = 0;
-	timeTogetherMyHT = 0;
-	NotMyHTSize = 0;
-	RBSize = 0;
-	BVSSize = 0;
-	AVLSize = 0;
-	MyHTSize = 0;
-
-	for (int i = max - 1; i >= 0; i--)
+	while (averageCount < 3)
 	{
-		CallBVS(&timeTogetherBVS, number, &BVSSize, FALSE);
-		CallRB(&timeTogetherRB, number, &RBSize, FALSE);
-		CallNotMyHT(&timeTogetherNMHT, number, &NotMyHTSize, FALSE);
-		CallAVL(&timeTogetherAVL, number, &AVLSize, FALSE);
-		CallMyHT(&timeTogetherMyHT, number, &MyHTSize, FALSE);
+		timeTogetherBVS = 0;
+		timeTogetherRB = 0;
+		timeTogetherNMHT = 0;
+		timeTogetherAVL = 0;
+		timeTogetherMyHT = 0;
+		NotMyHTSize = 0;
+		RBSize = 0;
+		BVSSize = 0;
+		AVLSize = 0;
+		MyHTSize = 0;
+
+		int number = 5;
+
+		long long arrayCounter = 0;
+		for (int i = 0; i < max; i++)
+		{
+			CallBVS(&timeTogetherBVS, number, &BVSSize, INSERT);
+			CallRB(&timeTogetherRB, number, &RBSize, INSERT);
+			CallNotMyHT(&timeTogetherNMHT, number, &NotMyHTSize, INSERT);
+			CallAVL(&timeTogetherAVL, number, &AVLSize, INSERT);
+			CallMyHT(&timeTogetherMyHT, number, &MyHTSize, INSERT);
+
+			if (i != 0 && i%debugCount == 0)
+			{
+				timeElapsed[0][arrayCounter] += timeTogetherBVS;
+				timeElapsed[1][arrayCounter] += timeTogetherRB;
+				timeElapsed[2][arrayCounter] += timeTogetherNMHT;
+				timeElapsed[3][arrayCounter] += timeTogetherAVL;
+				timeElapsed[4][arrayCounter] += timeTogetherMyHT;
+
+				arrayCounter++;
+			}
+
+
+		}
+
+		timeElapsed[0][arrayCounter] += timeTogetherBVS;
+		timeElapsed[1][arrayCounter] += timeTogetherRB;
+		timeElapsed[2][arrayCounter] += timeTogetherNMHT;
+		timeElapsed[3][arrayCounter] += timeTogetherAVL;
+		timeElapsed[4][arrayCounter] += timeTogetherMyHT;
+
+		timeTogetherBVS = 0;
+		timeTogetherRB = 0;
+		timeTogetherNMHT = 0;
+		timeTogetherAVL = 0;
+		timeTogetherMyHT = 0;
+
+
+		arrayCounter = 0;
+		for (int i = 0; i < max; i++)
+		{
+			CallBVS(&timeTogetherBVS, number, &BVSSize, SEARCH);
+			CallRB(&timeTogetherRB, number, &RBSize, SEARCH);
+			CallNotMyHT(&timeTogetherNMHT, number, &NotMyHTSize, SEARCH);
+			CallAVL(&timeTogetherAVL, number, &AVLSize, SEARCH);
+			CallMyHT(&timeTogetherMyHT, number, &MyHTSize, SEARCH);
+
+			if (i != 0 && i%debugCount == 0)
+			{
+				timeElapsed[0 + 5][arrayCounter] += timeTogetherBVS;
+				timeElapsed[1 + 5][arrayCounter] += timeTogetherRB;
+				timeElapsed[2 + 5][arrayCounter] += timeTogetherNMHT;
+				timeElapsed[3 + 5][arrayCounter] += timeTogetherAVL;
+				timeElapsed[4 + 5][arrayCounter] += timeTogetherMyHT;
+
+				arrayCounter++;
+			}
+		}
+
+		timeElapsed[0 + 5][arrayCounter] += timeTogetherBVS;
+		timeElapsed[1 + 5][arrayCounter] += timeTogetherRB;
+		timeElapsed[2 + 5][arrayCounter] += timeTogetherNMHT;
+		timeElapsed[3 + 5][arrayCounter] += timeTogetherAVL;
+		timeElapsed[4 + 5][arrayCounter] += timeTogetherMyHT;
+
+
+		FreeBVSTree();
+		EraseRBTree();
+		hashtbl_destroy();
+		FreeAVLTree();
+		FreeMyHT();
+		
+		averageCount++;
 	}
 
+	//Vypis priemeru
+	for (int i = 0; i < (max + debugCount - 1) / debugCount; i++)
+	{
+		int position = (i + 1)*debugCount;
 
-	//My BVS Tree
-	printf("[SAME] BVS Search\n");
-	printf("Time taken: %f seconds\n", timeTogetherBVS);
-	printf("Space used: %lld Bytes\n\n", BVSSize);
+		if (position > max)
+			position = max;
 
-	FreeBVSTree();
+		//My BVS Tree
+		printf("[SAME %d] BVS Insert\n", position);
+		printf("Time taken: %f seconds\n", timeElapsed[0][i] / 3);
+		printf("Space used: %lld Bytes\n\n", BVSSize);
 
+		//Red Black Tree
+		printf("[SAME %d] RB Insert\n", position);
+		printf("Time taken: %f seconds\n", timeElapsed[1][i] / 3);
+		printf("Space used: %lld Bytes\n\n", RBSize);
 
-	//Red Black Tree
-	printf("[SAME] RB Search\n");
-	printf("Time taken: %f seconds\n", timeTogetherRB);
-	printf("Space used: %lld Bytes\n\n", RBSize);
+		//Not My Hashtable
+		printf("[SAME %d] NotMyHT Insert\n", position);
+		printf("Time taken: %f seconds\n", timeElapsed[2][i] / 3);
+		printf("Space used: %lld Bytes\n\n", NotMyHTSize);
 
-	EraseRBTree();
+		//My AVL Tree
+		printf("[SAME %d] AVL Insert\n", position);
+		printf("Time taken: %f seconds\n", timeElapsed[3][i] / 3);
+		printf("Space used: %lld Bytes\n\n", AVLSize);
 
-	//Not My Hashtable
-	printf("[SAME] NotMyHT Search\n");
-	printf("Time taken: %f seconds\n", timeTogetherNMHT);
-	printf("Space used: %lld Bytes\n\n", NotMyHTSize);
+		//My HT
+		printf("[SAME %d] MyHT Insert\n", position);
+		printf("Time taken: %f seconds\n", timeElapsed[4][i] / 3);
+		printf("Space used: %lld Bytes\n\n", MyHTSize);
+	}
 
-	hashtbl_destroy();
+	for (int i = 0; i < (max + debugCount - 1) / debugCount; i++)
+	{
+		int position = (i + 1)*debugCount;
 
-	//My AVL Tree
-	printf("[SAME] AVL Search\n");
-	printf("Time taken: %f seconds\n", timeTogetherAVL);
-	printf("Space used: %lld Bytes\n\n", AVLSize);
+		if (position > max)
+			position = max;
 
-	FreeAVLTree();
+		//My BVS Tree
+		printf("[SAME %d] BVS Search\n", position);
+		printf("Time taken: %f seconds\n\n", timeElapsed[0 + 5][i] / 3);
 
-	//My HT
-	printf("[SAME] MyHT Search\n");
-	printf("Time taken: %f seconds\n", timeTogetherMyHT);
-	printf("Space used: %lld Bytes\n\n", MyHTSize);
+		//Red Black Tree
+		printf("[SAME %d] RB Search\n", position);
+		printf("Time taken: %f seconds\n\n", timeElapsed[1 + 5][i] / 3);
 
-	FreeMyHT();
+		//Not My Hashtable
+		printf("[SAME %d] NotMyHT Search\n", position);
+		printf("Time taken: %f seconds\n\n", timeElapsed[2 + 5][i] / 3);
 
+		//My AVL Tree
+		printf("[SAME %d] AVL Search\n", position);
+		printf("Time taken: %f seconds\n\n", timeElapsed[3 + 5][i] / 3);
+
+		//My HT
+		printf("[SAME %d] MyHT Search\n", position);
+		printf("Time taken: %f seconds\n\n", timeElapsed[4 + 5][i] / 3);
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		free(timeElapsed[i]);
+	}
+	free(timeElapsed);
 }
 
 // Funkcia main() by mala obsahovat testovanie
 int main()
 {
-	//BasicTest(30000);
-	//RandomTest(30000);
-	//RandomTest(10);
-	//SameTest(200);
+	SameTest(10000, 5000);
+	RandomTest(10000, 5000);
+	BasicTest(10000, 5000);
 
-	//BasicTest(100000);
-	//RandomTest(100000);
-	SameTest(20);
 
 	system("pause");
 	return 0;

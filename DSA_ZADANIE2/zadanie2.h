@@ -49,7 +49,7 @@ void		erase_tree_RB(t_rbnode *node);
 void		EraseRBTree();
 // Koniec prebrateho kodu z https://github.com/sebastiencs/red-black-tree
 
-//Foreign hashing
+//Not my hashing
 // Prebraty kod z https://github.com/qzchenwl/hashtable
 typedef size_t HSIZE;
 

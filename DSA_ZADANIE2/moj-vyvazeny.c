@@ -211,7 +211,7 @@ int InsertMyAVL(int numInc, AVLtree **treeInc)
 			}
 		}
 		else
-			if (numInc < (*treeInc)->num)
+			if (numInc <= (*treeInc)->num)
 			{
 				tmp = InsertMyAVL(numInc, &(*treeInc)->left);
 
