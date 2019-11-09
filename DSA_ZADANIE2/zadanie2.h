@@ -86,3 +86,15 @@ int SearchAVL(int numInc);
 int InsertAVL(int num);
 void FreeAVLTree();
 void FreeMyAVLTree(AVLtree *tree);
+
+//My hash
+
+typedef struct MyTable {
+	int size;
+	int usedSize;
+	int *elements;
+}myTable;
+
+int SearchMyHT(int number);
+int InsertMyHT(int number);
+void FreeMyHT();

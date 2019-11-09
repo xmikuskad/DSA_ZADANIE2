@@ -91,7 +91,27 @@ void CallAVL(double* timeTogether, int num, unsigned long long *AVLSize, char in
 	else
 	{
 		start = clock();
-		if (SearchAVL(num)) printf("not found BVS\n");
+		if (SearchAVL(num)) printf("not found AVL\n");
+		end = clock();
+	}
+	*timeTogether += ((double)(end - start)) / CLOCKS_PER_SEC;
+}
+
+void CallMyHT(double* timeTogether, int num, unsigned long long *MyHTSize, char insert)
+{
+	clock_t start, end;
+
+	if (insert)
+	{
+		start = clock();
+		*MyHTSize += InsertMyHT(num);
+		end = clock();
+
+	}
+	else
+	{
+		start = clock();
+		if (SearchMyHT(num)) printf("not found MyHT\n");
 		end = clock();
 	}
 	*timeTogether += ((double)(end - start)) / CLOCKS_PER_SEC;
@@ -103,6 +123,7 @@ void BasicTest()
 	unsigned long long RBSize = 0;
 	unsigned long long BVSSize = 0;
 	unsigned long long AVLSize = 0;
+	unsigned long long MyHTSize = 0;
 	double timeTogether = 0;
 
 	//My BVS Tree
@@ -215,6 +236,33 @@ void BasicTest()
 	printf("Space used: %lld Bytes\n\n", AVLSize);
 
 	FreeAVLTree();
+
+	//My HT
+	timeTogether = 0;
+	//INSERTS
+	for (int i = 1; i <= 30000; i++)
+	{
+		CallMyHT(&timeTogether, i, &MyHTSize, TRUE);
+	}
+
+	printf("[BASIC] MyHT Insert\n");
+	printf("Time taken: %f seconds\n", timeTogether);
+	printf("Space used: %lld Bytes\n\n", MyHTSize);
+
+	//SEARCH
+	timeTogether = 0;
+	MyHTSize = 0;
+
+	for (int i = 1; i <= 30000; i++)
+	{
+		CallMyHT(&timeTogether, i, &MyHTSize, FALSE);
+	}
+
+	printf("[BASIC] MyHT Search\n");
+	printf("Time taken: %f seconds\n", timeTogether);
+	printf("Space used: %lld Bytes\n\n", MyHTSize);
+
+	FreeMyHT();
 }
 
 void RandomTest()
@@ -223,10 +271,12 @@ void RandomTest()
 	unsigned long long RBSize = 0;
 	unsigned long long BVSSize = 0;
 	unsigned long long AVLSize = 0;
+	unsigned long long MyHTSize = 0;
 	double timeTogetherBVS = 0;
 	double timeTogetherRB = 0;
 	double timeTogetherNMHT = 0;
 	double timeTogetherAVL = 0;
+	double timeTogetherMyHT = 0;
 
 	int	*arrayForSearch = malloc(30000 * sizeof(int));
 
@@ -242,6 +292,7 @@ void RandomTest()
 		CallRB(&timeTogetherRB, randomNum, &RBSize, TRUE);
 		CallNotMyHT(&timeTogetherNMHT, randomNum, &NotMyHTSize, TRUE);
 		CallAVL(&timeTogetherAVL, randomNum, &AVLSize, TRUE);
+		CallMyHT(&timeTogetherMyHT, randomNum, &MyHTSize, TRUE);
 	}
 
 	//My BVS Tree
@@ -264,14 +315,21 @@ void RandomTest()
 	printf("Time taken: %f seconds\n", timeTogetherAVL);
 	printf("Space used: %lld Bytes\n\n", AVLSize);
 
+	//My HT
+	printf("[RANDOM] MyHT Insert\n");
+	printf("Time taken: %f seconds\n", timeTogetherMyHT);
+	printf("Space used: %lld Bytes\n\n", MyHTSize);
+
 	timeTogetherBVS = 0;
 	timeTogetherRB = 0;
 	timeTogetherNMHT = 0;
 	timeTogetherAVL = 0;
+	timeTogetherMyHT = 0;
 	NotMyHTSize = 0;
 	RBSize = 0;
 	BVSSize = 0;
 	AVLSize = 0;
+	MyHTSize = 0;
 
 	for (int i = 30000 - 1; i >= 0; i--)
 	{
@@ -279,6 +337,7 @@ void RandomTest()
 		CallRB(&timeTogetherRB, arrayForSearch[i], &RBSize, FALSE);
 		CallNotMyHT(&timeTogetherNMHT, arrayForSearch[i], &NotMyHTSize, FALSE);
 		CallAVL(&timeTogetherAVL, arrayForSearch[i], &AVLSize, FALSE);
+		CallMyHT(&timeTogetherMyHT, arrayForSearch[i], &MyHTSize, FALSE);
 	}
 
 
@@ -311,13 +370,15 @@ void RandomTest()
 
 	FreeAVLTree();
 
+	//My HT
+	printf("[RANDOM] MyHT Search\n");
+	printf("Time taken: %f seconds\n", timeTogetherMyHT);
+	printf("Space used: %lld Bytes\n\n", MyHTSize);
+
+	FreeMyHT();
+
 	free(arrayForSearch);
 }
-
-//Otazky:
-//Cas programu len 30 sec?
-//Globalne premenne na start?
-//Pripocitat do dlzky programu aj uvolnovanie/init hash TB?
 
 // Funkcia main() by mala obsahovat testovanie
 int main()
